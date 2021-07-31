@@ -2,6 +2,6 @@
 {
     public interface IRepository<T>
     {
-        void Adicionar(T obj);
+        void Insert(T obj);
     }
 }

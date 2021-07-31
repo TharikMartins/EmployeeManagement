@@ -28,6 +28,7 @@ namespace Management.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSwaggerGen();
             services.AddDbContext<EnterpriseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDependency();
         }
@@ -51,6 +52,14 @@ namespace Management.API
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(ui =>
+            {
+                ui.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                ui.RoutePrefix = "docs";
+            });
 
             app.UseEndpoints(endpoints =>
             {

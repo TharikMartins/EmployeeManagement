@@ -18,7 +18,8 @@ namespace Infrastructure.Repository.Context
                .HasMany<DependentDTO>()
                .WithOne(c => c.Employee)
                .IsRequired()
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Cascade)
+            .HasPrincipalKey(c => c.Id);
         }
     }
 }

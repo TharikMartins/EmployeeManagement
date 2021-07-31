@@ -16,7 +16,7 @@ namespace Infrastructure.Repository
             _parse = parse;
         }
 
-        public void Adicionar(Employee employee)
+        public void Insert(Employee employee)
         {
             _context.Employee.Add(_parse.Parse(employee));
             _context.SaveChanges();

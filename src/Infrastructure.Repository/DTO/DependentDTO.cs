@@ -8,7 +8,7 @@ namespace Infrastructure.Repository.DTO
     [Table("Dependent", Schema = "dbo")]
     public class DependentDTO
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         
         [Required]

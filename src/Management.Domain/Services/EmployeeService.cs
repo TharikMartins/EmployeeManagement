@@ -9,9 +9,9 @@ namespace Management.Domain.Services
             _repository = repository;
         }
 
-        public void Add(Employee employee)
+        public void Insert(Employee employee)
         {
-            _repository.Adicionar(employee);
+            _repository.Insert(employee);
         }
     }
 }

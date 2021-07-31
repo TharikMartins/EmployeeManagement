@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20210731151348_ManagementProject.cs" />
+    <Compile Remove="Migrations\20210731151348_ManagementProject.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.17" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.17">
       <PrivateAssets>all</PrivateAssets>
@@ -14,6 +19,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Management.Domain\Management.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
