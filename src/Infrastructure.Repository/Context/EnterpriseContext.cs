@@ -1,7 +1,7 @@
 ﻿using Infrastructure.Repository.DTO;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Repository
+namespace Infrastructure.Repository.Context
 {
     public class EnterpriseContext : DbContext
     {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Infrastructure.Repository;
+using Infrastructure.Repository.Context;
+using Management.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -27,6 +29,7 @@ namespace Management.API
         {
             services.AddControllersWithViews();
             services.AddDbContext<EnterpriseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDependency();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
