@@ -13,7 +13,10 @@ namespace Management.DependencyInjection
     {
         public static IServiceCollection AddDependency(this IServiceCollection service) =>
             service.AddTransient<EmployeeService>()
+           .AddTransient<DependentService>()
            .AddTransient<IRepository<Employee>, EmployeeRepository>()
-           .AddTransient<IParse<Employee, EmployeeDTO>, EmployeeParse>();
+           .AddTransient<IRepository<Dependent>, DependentRepository>()
+           .AddTransient<IParse<Employee, EmployeeDTO>, EmployeeParse>()
+           .AddTransient<IParse<Dependent, DependentDTO>, DependentParse>();
     }
 }

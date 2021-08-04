@@ -6,14 +6,9 @@ namespace Management.Domain
     public class Dependent : Person
     {
 
-        public Dependent(string name, DateTime birthDate, Gender gender, Employee employee) : base(name, birthDate, gender)
+        public Dependent(string name, DateTime birthDate, Gender gender, int employeeId) : base(name, birthDate, gender)
         {
-            if (employee == null)
-                throw new ArgumentNullException("Employee cannot be null.");
-
-            Employee = employee;
-
-            EmployeeId = employee.Id;
+            EmployeeId = employeeId;
         }
 
         public int EmployeeId { get; set; }

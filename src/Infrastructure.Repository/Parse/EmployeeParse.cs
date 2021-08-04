@@ -16,7 +16,7 @@ namespace Infrastructure.Repository.Parse
             Gender = employee.Gender.ToString(),
             IsActive = employee.IsActive,
             PhoneNumber = employee.PhoneNumber,
-            Dependents = employee.Dependents?.Select(e => new DependentDTO { Id = e.Id, Gender = e.Gender.ToString(), Name = e.Name, BirthDate = e.BirthDate }).ToList()
+            Dependents = employee.Dependents?.Select(e => new DependentDTO {Gender = e.Gender.ToString(), Name = e.Name, BirthDate = e.BirthDate }).ToList()
         };
     }
 }

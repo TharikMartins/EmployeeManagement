@@ -15,8 +15,7 @@ namespace Management.Domain
             BirthDate = birthDate;
             Gender = gender;
         }
-
-        public int Id { get; set; }
+        
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
         public Gender Gender { get; set; }
