@@ -28,6 +28,7 @@ namespace Management.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddLogging();
             services.AddSwaggerGen();
             services.AddDbContext<EnterpriseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDependency();
@@ -48,7 +49,6 @@ namespace Management.API
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseRouting();
 
             app.UseAuthorization();

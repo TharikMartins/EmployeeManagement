@@ -11,6 +11,9 @@ namespace Management.Domain.Services
 
         public void Insert(Employee employee)
         {
+            if (employee is null)
+                throw new System.ArgumentNullException("Employee cannot be null");
+
             _repository.Insert(employee);
         }
     }
