@@ -20,24 +20,28 @@ namespace Management.API.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Endpoint responsible to insert dependent
+        /// </summary>
+        /// <param name="request">Dependent user data</param>
+        /// <returns>TransactionResponse</returns>
         [HttpPost]
-        public IActionResult Post(InsertDependentRequest request)
+        public ActionResult<TransactionResponse> Post(InsertDependentRequest request)
         {
             if (request is null)
                 return BadRequest("Request cannot be null");
 
             try
             {
-                _service.Insert(new Dependent(request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
+                _service.Insert(new Dependent(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
 
-                return Ok(new TransactionResponse(true));
+                return Ok(new TransactionResponse(new ResultTransaction(true)));
             }
             catch (Exception ex)
             {
                 _logger.LogError($"{ex.Message}, {ex.StackTrace}");
 
-                return StatusCode(500, new ErrorResponse(ex.Message));
-                throw;
+                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
             }
            
         }

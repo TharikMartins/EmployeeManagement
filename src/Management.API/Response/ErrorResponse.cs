@@ -1,12 +1,7 @@
 ﻿namespace Management.API.Response
 {
-    public class ErrorResponse
+    public class ErrorResponse : BaseResponse<string>
     {
-        public ErrorResponse(string message)
-        {
-            Message = message;
-        }
-
-        public string Message { get; set; }
+        public ErrorResponse(string data , string message) : base(data, message) { }
     }
 }

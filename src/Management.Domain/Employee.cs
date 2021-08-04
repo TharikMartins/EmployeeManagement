@@ -6,8 +6,8 @@ namespace Management.Domain
 {
     public class Employee : Person
     {
-        public Employee(string name, DateTime birthDate, Gender gender, string cpf, string phoneNumber, string address, bool isActive,
-            List<Dependent> dependents):base(name, birthDate, gender)
+        public Employee(int? id, string name, DateTime birthDate, Gender gender, string cpf, string phoneNumber, string address, bool isActive,
+            List<Dependent> dependents) : base(id, name, birthDate, gender)
         {
             if (string.IsNullOrEmpty(cpf))
                 throw new ArgumentNullException("Cpf cannot be null or empty");

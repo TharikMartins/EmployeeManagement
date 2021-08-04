@@ -31,6 +31,6 @@ namespace Infrastructure.Repository.DTO
 
         [Required]
         public bool IsActive { get; set; }
-        public List<DependentDTO> Dependents { get; set; }
+        public ICollection<DependentDTO> Dependents { get; set; }
     }
 }

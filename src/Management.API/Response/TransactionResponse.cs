@@ -1,12 +1,9 @@
-﻿namespace Management.API.Response
-{
-    public class TransactionResponse
-    {
-        public TransactionResponse(bool success)
-        {
-            Success = success;
-        }
+﻿using Management.Domain;
 
-        public bool Success { get; set; }
+namespace Management.API.Response
+{
+    public class TransactionResponse : BaseResponse<ResultTransaction>
+    {
+        public TransactionResponse(ResultTransaction data) : base(data) { }
     }
 }

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Repository.Migrations
 {
     [DbContext(typeof(EnterpriseContext))]
-    [Migration("20210731151525_ManagementProject")]
-    partial class ManagementProject
+    [Migration("20210804144644_EnterpriseProject")]
+    partial class EnterpriseProject
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,9 +31,6 @@ namespace Infrastructure.Repository.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmployeeDTOId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
@@ -46,8 +43,6 @@ namespace Infrastructure.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeDTOId");
 
                     b.HasIndex("EmployeeId");
 
@@ -94,12 +89,8 @@ namespace Infrastructure.Repository.Migrations
 
             modelBuilder.Entity("Infrastructure.Repository.DTO.DependentDTO", b =>
                 {
-                    b.HasOne("Infrastructure.Repository.DTO.EmployeeDTO", null)
-                        .WithMany("Dependents")
-                        .HasForeignKey("EmployeeDTOId");
-
                     b.HasOne("Infrastructure.Repository.DTO.EmployeeDTO", "Employee")
-                        .WithMany()
+                        .WithMany("Dependents")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

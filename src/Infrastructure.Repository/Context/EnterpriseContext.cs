@@ -15,8 +15,8 @@ namespace Infrastructure.Repository.Context
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<EmployeeDTO>()
-               .HasMany<DependentDTO>()
-               .WithOne(c => c.Employee)
+               .HasMany(e => e.Dependents)
+               .WithOne(e => e.Employee)
                .IsRequired()
                .OnDelete(DeleteBehavior.Cascade)
             .HasPrincipalKey(c => c.Id);

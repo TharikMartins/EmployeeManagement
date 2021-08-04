@@ -1,7 +1,10 @@
 ﻿using Infrastructure.Repository.DTO;
 using Management.Domain;
 using Management.Domain.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using EnumDomain = Management.Domain.Enum;
 
 namespace Infrastructure.Repository.Parse
 {
@@ -17,6 +20,23 @@ namespace Infrastructure.Repository.Parse
             IsActive = employee.IsActive,
             PhoneNumber = employee.PhoneNumber,
             Dependents = employee.Dependents?.Select(e => new DependentDTO {Gender = e.Gender.ToString(), Name = e.Name, BirthDate = e.BirthDate }).ToList()
+        };
+
+        public Employee Parse(EmployeeDTO dto) => new Employee(dto.Id, dto.Name, dto.BirthDate, (EnumDomain.Gender)Enum.Parse(typeof(EnumDomain.Gender), dto.Gender),
+            dto.Cpf, dto.PhoneNumber, dto.Address, dto.IsActive, this.parseDependents(dto.Dependents));
+
+        private Func<ICollection<DependentDTO>, List<Dependent>> parseDependents = (dependentsDto) =>
+        {
+            var dependents = new List<Dependent>();
+
+            foreach (var dto in dependentsDto)
+            {
+                dependents.Add(
+                    new Dependent(dto.Id, dto.Name, dto.BirthDate, 
+                    (EnumDomain.Gender)Enum.Parse(typeof(EnumDomain.Gender),dto.Gender), dto.EmployeeId));
+            }
+
+            return dependents;
         };
     }
 }

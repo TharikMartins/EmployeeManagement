@@ -29,9 +29,6 @@ namespace Infrastructure.Repository.Migrations
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("EmployeeDTOId")
-                        .HasColumnType("int");
-
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
@@ -44,8 +41,6 @@ namespace Infrastructure.Repository.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("EmployeeDTOId");
 
                     b.HasIndex("EmployeeId");
 
@@ -92,12 +87,8 @@ namespace Infrastructure.Repository.Migrations
 
             modelBuilder.Entity("Infrastructure.Repository.DTO.DependentDTO", b =>
                 {
-                    b.HasOne("Infrastructure.Repository.DTO.EmployeeDTO", null)
-                        .WithMany("Dependents")
-                        .HasForeignKey("EmployeeDTOId");
-
                     b.HasOne("Infrastructure.Repository.DTO.EmployeeDTO", "Employee")
-                        .WithMany()
+                        .WithMany("Dependents")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

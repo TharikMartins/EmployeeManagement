@@ -3,5 +3,6 @@
     public interface IRepository<T>
     {
         void Insert(T obj);
+        T Get(int Id);
     }
 }

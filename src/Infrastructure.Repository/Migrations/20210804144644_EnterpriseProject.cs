@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Infrastructure.Repository.Migrations
 {
-    public partial class ManagementProject : Migration
+    public partial class EnterpriseProject : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,19 +40,11 @@ namespace Infrastructure.Repository.Migrations
                     Name = table.Column<string>(nullable: false),
                     BirthDate = table.Column<DateTime>(nullable: false),
                     Gender = table.Column<string>(nullable: false),
-                    EmployeeId = table.Column<int>(nullable: false),
-                    EmployeeDTOId = table.Column<int>(nullable: true)
+                    EmployeeId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Dependent", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Dependent_Employee_EmployeeDTOId",
-                        column: x => x.EmployeeDTOId,
-                        principalSchema: "dbo",
-                        principalTable: "Employee",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Dependent_Employee_EmployeeId",
                         column: x => x.EmployeeId,
@@ -61,12 +53,6 @@ namespace Infrastructure.Repository.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Dependent_EmployeeDTOId",
-                schema: "dbo",
-                table: "Dependent",
-                column: "EmployeeDTOId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Dependent_EmployeeId",

@@ -16,9 +16,15 @@ namespace Infrastructure.Repository
             _parse = parse;
         }
 
+        public Dependent Get(int Id)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Insert(Dependent dependent)
         {
             _context.Dependent.Add(_parse.Parse(dependent));
+
             _context.SaveChanges();
         }
     }

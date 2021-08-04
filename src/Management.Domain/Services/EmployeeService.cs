@@ -1,4 +1,6 @@
 ﻿using Management.Domain.Interfaces;
+using System;
+
 namespace Management.Domain.Services
 {
     public class EmployeeService
@@ -12,9 +14,17 @@ namespace Management.Domain.Services
         public void Insert(Employee employee)
         {
             if (employee is null)
-                throw new System.ArgumentNullException("Employee cannot be null");
+                throw new ArgumentNullException("Employee cannot be null");
 
             _repository.Insert(employee);
+        }
+
+        public Employee Get(int Id)
+        {
+            if (Id <= 0)
+                throw new ArgumentException("Id cannot be 0 or less than.");
+
+            return _repository.Get(Id);
         }
     }
 }

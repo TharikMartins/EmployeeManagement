@@ -13,5 +13,10 @@ namespace Infrastructure.Repository.Parse
             BirthDate = dependent.BirthDate,
             Gender = dependent.Gender.ToString(),
         };
+
+        public Dependent Parse(DependentDTO obj)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

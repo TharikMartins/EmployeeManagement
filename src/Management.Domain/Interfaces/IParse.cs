@@ -1,7 +1,8 @@
 ﻿namespace Management.Domain.Interfaces
 {
-    public interface IParse<Tin, Tout>
+    public interface IParse<TDomain, TDto>
     {
-        Tout Parse(Tin obj);
+        TDto Parse(TDomain obj);
+        TDomain Parse(TDto obj);
     }
 }
