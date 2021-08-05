@@ -6,7 +6,8 @@ namespace Management.Domain.Interfaces
     {
         void Insert(T obj);
         List<T> Get();
-        T Get(int Id);
-        bool Delete(int Id);
+        T Get(int id);
+        bool Delete(int id);
+        bool Update(Employee employee, int id);
     }
 }

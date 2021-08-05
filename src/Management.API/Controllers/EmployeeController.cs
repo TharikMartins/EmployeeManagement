@@ -26,7 +26,7 @@ namespace Management.API.Controllers
         /// <param name="request">Employee information</param>
         /// <returns>TransactionResponse</returns>
         [HttpPost]
-        public ActionResult<TransactionResponse> Post(InsertEmployeeRequest request)
+        public ActionResult<TransactionResponse> Post(EmployeeDataRequest request)
         {
 
             if (request is null)
@@ -106,6 +106,32 @@ namespace Management.API.Controllers
             try
             {
                 return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
+
+                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Endpoint to update Employee by id.
+        /// </summary>
+        /// <param name="request">Employee's data</param>
+        /// <param name="id">emplyee's id</param>
+        /// <returns>TransactionResponse</returns>
+        [HttpPut]
+        [Route("{id}")]
+        public ActionResult<TransactionResponse> Put(EmployeeDataRequest request, int id)
+        {
+            if (id <= 0)
+                return BadRequest("Id cannot be 0 or less than.");
+
+            try
+            {
+                return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Employee(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
+                    request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null), id))));
             }
             catch (Exception ex)
             {

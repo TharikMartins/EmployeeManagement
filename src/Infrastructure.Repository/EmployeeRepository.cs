@@ -54,7 +54,30 @@ namespace Infrastructure.Repository
 
             return _parse.Parse(dto);
         }
+        public bool Update(Employee employee, int Id)
+        {
+            EmployeeDTO dto = _context.Employee
+                .Where(e => e.Id == Id)
+                .Include(e => e.Dependents)
+                .FirstOrDefault();
 
+            if (dto is null)
+                return false;
+
+            dto.Name = employee.Name;
+            dto.Cpf = employee.Cpf;
+            dto.Address = employee.Address;
+            dto.BirthDate = employee.BirthDate;
+            dto.Gender = employee.Gender.ToString();
+            dto.PhoneNumber = employee.PhoneNumber;
+            dto.IsActive = employee.IsActive;
+
+            _context.Employee.Update(dto);
+            
+            _context.SaveChanges();
+            
+            return true;
+        }
         public bool Delete(int Id)
         {
             EmployeeDTO dto = _context.Employee

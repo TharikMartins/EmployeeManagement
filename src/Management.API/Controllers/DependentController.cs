@@ -26,7 +26,7 @@ namespace Management.API.Controllers
         /// <param name="request">Dependent user data</param>
         /// <returns>TransactionResponse</returns>
         [HttpPost]
-        public ActionResult<TransactionResponse> Post(InsertDependentRequest request)
+        public ActionResult<TransactionResponse> Post(DependentDataRequest request)
         {
             if (request is null)
                 return BadRequest("Request cannot be null");

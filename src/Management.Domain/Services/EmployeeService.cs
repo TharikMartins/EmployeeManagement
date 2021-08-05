@@ -25,20 +25,29 @@ namespace Management.Domain.Services
             return _repository.Get();
         }
 
-        public Employee Get(int Id)
+        public Employee Get(int id)
         {
-            if (Id <= 0)
+            if (id <= 0)
                 throw new ArgumentException("Id cannot be 0 or less than.");
 
-            return _repository.Get(Id);
+            return _repository.Get(id);
         }
 
-        public bool Delete(int Id)
+        public bool Update(Employee employee, int id)
         {
-            if (Id <= 0)
+            if (employee is null) throw new ArgumentNullException("Employee cannot be null");
+            if (id <= 0) throw new ArgumentException("Id cannot be 0 or less than.");
+
+            return _repository.Update(employee, id);
+
+        }
+
+        public bool Delete(int id)
+        {
+            if (id <= 0)
                 throw new ArgumentException("Id cannot be 0 or less than.");
 
-           return _repository.Delete(Id);
+           return _repository.Delete(id);
         }
     }
 }

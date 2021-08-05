@@ -70,6 +70,9 @@ namespace Infrastructure.Repository
 
         }
 
-
+        public bool Update(Employee employee, int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

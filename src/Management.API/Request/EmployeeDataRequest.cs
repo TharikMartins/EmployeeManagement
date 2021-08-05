@@ -2,7 +2,7 @@
 
 namespace Management.API.Request
 {
-    public class InsertEmployeeRequest
+    public class EmployeeDataRequest
     {
         public string Name { get; set; }
         public DateTime BirthDate { get; set; }
