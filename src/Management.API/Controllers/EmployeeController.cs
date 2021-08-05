@@ -49,11 +49,31 @@ namespace Management.API.Controllers
         }
 
         /// <summary>
+        /// Endpoint to get all Employees
+        /// </summary>
+        /// <returns>EmployeeListResponse</returns>
+        [HttpGet]
+        public ActionResult<EmployeeListResponse> Get()
+        {
+            try
+            {
+                return Ok(new EmployeeListResponse(_service.Get()));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
+
+                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
+            }
+        }
+
+        /// <summary>
         /// Endpoint to get Employee by id.
         /// </summary>
         /// <param name="id">Employee's id</param>
         /// <returns>EmployeeResponse</returns>
         [HttpGet]
+        [Route("{id}")]
         public ActionResult<EmployeeResponse> Get(int id)
         {
             if (id <= 0)
@@ -62,6 +82,30 @@ namespace Management.API.Controllers
             try
             {
                 return Ok(new EmployeeResponse(_service.Get(id)));
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
+
+                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
+            }
+        }
+
+        /// <summary>
+        /// Endpoint to delete Employee by id.
+        /// </summary>
+        /// <param name="id">Employee's id</param>
+        /// <returns>EmployeeResponse</returns>
+        [HttpDelete]
+        [Route("{id}")]
+        public ActionResult<TransactionResponse> Delete(int id)
+        {
+            if (id <= 0)
+                return BadRequest("Id cannot be 0 or less than.");
+
+            try
+            {
+                return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
             }
             catch (Exception ex)
             {

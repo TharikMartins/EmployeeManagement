@@ -6,7 +6,7 @@
 
         public ResultTransaction(bool success)
         {
-            Success = Success;
+            Success = success;
         }
     }
 }

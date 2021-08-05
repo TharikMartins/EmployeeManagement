@@ -1,5 +1,6 @@
 ﻿using Management.Domain.Interfaces;
 using System;
+using System.Collections.Generic;
 
 namespace Management.Domain.Services
 {
@@ -19,12 +20,25 @@ namespace Management.Domain.Services
             _repository.Insert(employee);
         }
 
+        public List<Employee> Get()
+        {
+            return _repository.Get();
+        }
+
         public Employee Get(int Id)
         {
             if (Id <= 0)
                 throw new ArgumentException("Id cannot be 0 or less than.");
 
             return _repository.Get(Id);
+        }
+
+        public bool Delete(int Id)
+        {
+            if (Id <= 0)
+                throw new ArgumentException("Id cannot be 0 or less than.");
+
+           return _repository.Delete(Id);
         }
     }
 }

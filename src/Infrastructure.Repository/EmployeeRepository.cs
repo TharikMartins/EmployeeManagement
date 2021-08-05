@@ -3,6 +3,7 @@ using Infrastructure.Repository.DTO;
 using Management.Domain;
 using Management.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Infrastructure.Repository
@@ -26,6 +27,21 @@ namespace Infrastructure.Repository
             _context.SaveChanges();
         }
 
+        public List<Employee> Get()
+        {
+            List<EmployeeDTO> dto = _context.Employee
+                .Include(e => e.Dependents)
+                .ToList();
+
+            var employees = new List<Employee>(dto.Count);
+            dto.ForEach(d =>
+            {
+                employees.Add(_parse.Parse(d));
+            });
+
+            return employees;
+        }
+
         public Employee Get(int Id)
         {
             EmployeeDTO dto = _context.Employee
@@ -37,6 +53,23 @@ namespace Infrastructure.Repository
                 return null;
 
             return _parse.Parse(dto);
+        }
+
+        public bool Delete(int Id)
+        {
+            EmployeeDTO dto = _context.Employee
+                .Where(e => e.Id == Id)
+                .Include(e => e.Dependents)
+                .FirstOrDefault();
+
+            if (dto is null)
+                return false;
+
+            _context.Employee.Remove(dto);
+
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }
