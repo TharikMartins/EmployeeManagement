@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace Management.API.Response
 {
-    public class EmployeeListResponse : BaseResponse<IEnumerable<Employee>>
+    public class DependentListResponse : BaseResponse<IEnumerable<Dependent>>
     {
-        public EmployeeListResponse(IEnumerable<Employee> data) : base(data) {}
+        public DependentListResponse(IEnumerable<Dependent> data) : base(data) {}
     }
 }

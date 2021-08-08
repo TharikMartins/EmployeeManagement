@@ -70,9 +70,26 @@ namespace Infrastructure.Repository
 
         }
 
-        public bool Update(Employee employee, int id)
+        public bool Update(Dependent dependent, int id)
         {
-            throw new System.NotImplementedException();
+            DependentDTO dto = _context.Dependent
+                .Where(e => e.Id == id)
+                .Include(e => e.Employee)
+                .FirstOrDefault();
+
+            if (dto is null)
+                return false;
+
+            dto.Name = dependent.Name;
+            dto.BirthDate = dependent.BirthDate;
+            dto.Gender = dependent.Gender.ToString();
+            dto.EmployeeId = dependent.EmployeeId;
+
+            _context.Dependent.Update(dto);
+
+            _context.SaveChanges();
+
+            return true;
         }
     }
 }

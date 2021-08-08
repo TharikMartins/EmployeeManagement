@@ -95,7 +95,7 @@ namespace Management.API.Controllers
         /// Endpoint to delete Employee by id.
         /// </summary>
         /// <param name="id">Employee's id</param>
-        /// <returns>EmployeeResponse</returns>
+        /// <returns>TransactionResponse</returns>
         [HttpDelete]
         [Route("{id}")]
         public ActionResult<TransactionResponse> Delete(int id)
@@ -119,7 +119,7 @@ namespace Management.API.Controllers
         /// Endpoint to update Employee by id.
         /// </summary>
         /// <param name="request">Employee's data</param>
-        /// <param name="id">emplyee's id</param>
+        /// <param name="id">Employee's id</param>
         /// <returns>TransactionResponse</returns>
         [HttpPut]
         [Route("{id}")]

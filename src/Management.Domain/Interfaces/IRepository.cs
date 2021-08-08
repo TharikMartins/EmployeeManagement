@@ -8,6 +8,6 @@ namespace Management.Domain.Interfaces
         List<T> Get();
         T Get(int id);
         bool Delete(int id);
-        bool Update(Employee employee, int id);
+        bool Update(T employee, int id);
     }
 }
