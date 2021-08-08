@@ -13,8 +13,8 @@ namespace Management.API.Controllers
     public class EmployeeController : Controller
     {
         private readonly ILogger<EmployeeController> _logger;
-        private readonly IService<Employee> _service;
-        public EmployeeController(IService<Employee> service, ILogger<EmployeeController> logger)
+        private readonly EmployeeService _service;
+        public EmployeeController(EmployeeService service, ILogger<EmployeeController> logger)
         {
             _service = service;
             _logger = logger;

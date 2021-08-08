@@ -12,8 +12,8 @@ namespace Management.DependencyInjection
     public static class Bootstrap
     {
         public static IServiceCollection AddDependency(this IServiceCollection service) =>
-            service.AddTransient<EmployeeService>()
-           .AddTransient<DependentService>()
+            service.AddTransient<IService<Employee>, EmployeeService>()
+           .AddTransient<IService<Dependent>, DependentService>()
            .AddTransient<IRepository<Employee>, EmployeeRepository>()
            .AddTransient<IRepository<Dependent>, DependentRepository>()
            .AddTransient<IParse<Employee, EmployeeDTO>, EmployeeParse>()

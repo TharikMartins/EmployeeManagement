@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Management.Domain.Services
 {
-    public class DependentService
+    public class DependentService : IService<Dependent>
     {
         private readonly IRepository<Dependent> _repository;
 

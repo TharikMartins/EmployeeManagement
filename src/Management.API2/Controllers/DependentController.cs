@@ -1,63 +1,61 @@
-﻿using System;
-using Management.API.Request;
+﻿using Management.API.Request;
 using Management.API.Response;
 using Management.Domain;
 using Management.Domain.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace Management.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class EmployeeController : Controller
+    public class DependentController : Controller
     {
-        private readonly ILogger<EmployeeController> _logger;
-        private readonly IService<Employee> _service;
-        public EmployeeController(IService<Employee> service, ILogger<EmployeeController> logger)
+        private readonly ILogger<DependentController> _logger;
+        private readonly DependentService _service;
+        public DependentController(DependentService service, ILogger<DependentController> logger)
         {
-            _service = service;
             _logger = logger;
+            _service = service;
         }
 
         /// <summary>
-        /// Endpoint to insert Employee.
+        /// Endpoint responsible to insert dependent
         /// </summary>
-        /// <param name="request">Employee information</param>
+        /// <param name="request">Dependent user data</param>
         /// <returns>TransactionResponse</returns>
         [HttpPost]
-        public ActionResult<TransactionResponse> Post(EmployeeDataRequest request)
+        public ActionResult<TransactionResponse> Post(DependentDataRequest request)
         {
-
             if (request is null)
-                return BadRequest();
+                return BadRequest("Request cannot be null");
 
             try
             {
-                _service.Insert(new Employee(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
-              request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null));
+                _service.Insert(new Dependent(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
 
                 return Ok(new TransactionResponse(new ResultTransaction(true)));
             }
             catch (Exception ex)
             {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
+                _logger.LogError($"{ex.Message}, {ex.StackTrace}");
 
                 return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
             }
-
+           
         }
 
         /// <summary>
-        /// Endpoint to get all Employees
+        /// Endpoint to get all Dependent
         /// </summary>
-        /// <returns>EmployeeListResponse</returns>
+        /// <returns>DependentListResponse</returns>
         [HttpGet]
-        public ActionResult<EmployeeListResponse> Get()
+        public ActionResult<DependentListResponse> Get()
         {
             try
             {
-                return Ok(new EmployeeListResponse(_service.Get()));
+                return Ok(new DependentListResponse(_service.Get()));
             }
             catch (Exception ex)
             {
@@ -68,20 +66,20 @@ namespace Management.API.Controllers
         }
 
         /// <summary>
-        /// Endpoint to get Employee by id.
+        /// Endpoint to get Dependent by id.
         /// </summary>
-        /// <param name="id">Employee's id</param>
-        /// <returns>EmployeeResponse</returns>
+        /// <param name="id">Dependent's id</param>
+        /// <returns>DependentResponse</returns>
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<EmployeeResponse> Get(int id)
+        public ActionResult<DependentResponse> Get(int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
             try
             {
-                return Ok(new EmployeeResponse(_service.Get(id)));
+                return Ok(new DependentResponse(_service.Get(id)));
             }
             catch (Exception ex)
             {
@@ -92,9 +90,9 @@ namespace Management.API.Controllers
         }
 
         /// <summary>
-        /// Endpoint to delete Employee by id.
+        /// Endpoint to delete Dependent by id.
         /// </summary>
-        /// <param name="id">Employee's id</param>
+        /// <param name="id">Dependent's id</param>
         /// <returns>TransactionResponse</returns>
         [HttpDelete]
         [Route("{id}")]
@@ -116,22 +114,21 @@ namespace Management.API.Controllers
         }
 
         /// <summary>
-        /// Endpoint to update Employee by id.
+        /// Endpoint to update Dependent by id.
         /// </summary>
-        /// <param name="request">Employee's data</param>
-        /// <param name="id">Employee's id</param>
+        /// <param name="request">Dependent's data</param>
+        /// <param name="id">Dependent's id</param>
         /// <returns>TransactionResponse</returns>
         [HttpPut]
         [Route("{id}")]
-        public ActionResult<TransactionResponse> Put(EmployeeDataRequest request, int id)
+        public ActionResult<TransactionResponse> Put(DependentDataRequest request, int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
             try
             {
-                return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Employee(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
-                    request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null), id))));
+                return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Dependent(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId), id))));
             }
             catch (Exception ex)
             {

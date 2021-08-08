@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Management.Domain.Services
 {
-    public class EmployeeService
+    public class EmployeeService : IService<Employee>
     {
         private readonly IRepository<Employee> _repository;
         public EmployeeService(IRepository<Employee> repository)

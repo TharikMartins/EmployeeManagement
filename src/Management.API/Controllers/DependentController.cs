@@ -13,8 +13,8 @@ namespace Management.API.Controllers
     public class DependentController : Controller
     {
         private readonly ILogger<DependentController> _logger;
-        private readonly DependentService _service;
-        public DependentController(DependentService service, ILogger<DependentController> logger)
+        private readonly IService<Dependent> _service;
+        public DependentController(IService<Dependent> service, ILogger<DependentController> logger)
         {
             _logger = logger;
             _service = service;
