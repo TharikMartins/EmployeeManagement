@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Infrastructure.Repository.Migrations
+namespace Management.Infrastructure.Repository.Migrations
 {
-    public partial class EnterpriseProject : Migration
+    public partial class EnterpriseManagement : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

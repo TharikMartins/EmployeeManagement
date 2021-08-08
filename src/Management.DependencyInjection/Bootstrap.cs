@@ -1,6 +1,6 @@
-﻿using Infrastructure.Repository;
-using Infrastructure.Repository.DTO;
-using Infrastructure.Repository.Parse;
+﻿using Management.Infrastructure.Repository;
+using Management.Infrastructure.Repository.DTO;
+using Management.Infrastructure.Repository.Parse;
 using Management.Domain;
 using Management.Domain.Interfaces;
 using Management.Domain.Services;
