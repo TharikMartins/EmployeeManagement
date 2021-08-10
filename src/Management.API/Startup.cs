@@ -33,6 +33,8 @@ namespace Management.API
             services.AddSwaggerGen();
             services.AddDbContext<EnterpriseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddDependency();
+            services.AddRepository();
+            services.AddParse();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

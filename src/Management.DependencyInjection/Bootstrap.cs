@@ -5,7 +5,6 @@ using Management.Domain;
 using Management.Domain.Interfaces;
 using Management.Domain.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace Management.DependencyInjection
 {
@@ -13,10 +12,14 @@ namespace Management.DependencyInjection
     {
         public static IServiceCollection AddDependency(this IServiceCollection service) =>
             service.AddTransient<IService<Employee>, EmployeeService>()
-           .AddTransient<IService<Dependent>, DependentService>()
-           .AddTransient<IRepository<Employee>, EmployeeRepository>()
-           .AddTransient<IRepository<Dependent>, DependentRepository>()
-           .AddTransient<IParse<Employee, EmployeeDTO>, EmployeeParse>()
+           .AddTransient<IService<Dependent>, DependentService>();
+
+        public static IServiceCollection AddRepository(this IServiceCollection service) =>
+          service.AddTransient<IRepository<Employee>, EmployeeRepository>()
+           .AddTransient<IRepository<Dependent>, DependentRepository>();
+
+        public static IServiceCollection AddParse(this IServiceCollection service) =>
+           service.AddTransient<IParse<Employee, EmployeeDTO>, EmployeeParse>()
            .AddTransient<IParse<Dependent, DependentDTO>, DependentParse>();
     }
 }
