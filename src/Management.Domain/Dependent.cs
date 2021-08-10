@@ -12,7 +12,7 @@ namespace Management.Domain
             EmployeeId = employeeId;
         }
 
-        public int EmployeeId { get; set; }
-        public Employee Employee { get; set; }
+        public int EmployeeId { get; }
+        public Employee Employee { get; }
     }
 }

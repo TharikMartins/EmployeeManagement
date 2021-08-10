@@ -12,11 +12,9 @@ namespace Management.API.Controllers
     [Route("[controller]")]
     public class DependentController : Controller
     {
-        private readonly ILogger<DependentController> _logger;
         private readonly IService<Dependent> _service;
-        public DependentController(IService<Dependent> service, ILogger<DependentController> logger)
+        public DependentController(IService<Dependent> service)
         {
-            _logger = logger;
             _service = service;
         }
 
@@ -31,19 +29,10 @@ namespace Management.API.Controllers
             if (request is null)
                 return BadRequest("Request cannot be null");
 
-            try
-            {
-                _service.Insert(new Dependent(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
 
-                return Ok(new TransactionResponse(new ResultTransaction(true)));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message}, {ex.StackTrace}");
+            _service.Insert(new Dependent(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
 
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
-           
+            return Ok(new TransactionResponse(new ResultTransaction(true)));
         }
 
         /// <summary>
@@ -53,16 +42,7 @@ namespace Management.API.Controllers
         [HttpGet]
         public ActionResult<DependentListResponse> Get()
         {
-            try
-            {
-                return Ok(new DependentListResponse(_service.Get()));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new DependentListResponse(_service.Get()));
         }
 
         /// <summary>
@@ -77,16 +57,7 @@ namespace Management.API.Controllers
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            try
-            {
-                return Ok(new DependentResponse(_service.Get(id)));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new DependentResponse(_service.Get(id)));
         }
 
         /// <summary>
@@ -101,16 +72,7 @@ namespace Management.API.Controllers
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            try
-            {
-                return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
         }
 
         /// <summary>
@@ -126,16 +88,8 @@ namespace Management.API.Controllers
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            try
-            {
-                return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Dependent(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId), id))));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Dependent(id, request.Name, request.BirthDate, 
+                (Domain.Enum.Gender)request.Gender, request.EmployeeId), id))));
         }
     }
 }

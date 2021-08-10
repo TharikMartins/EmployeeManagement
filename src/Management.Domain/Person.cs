@@ -20,9 +20,9 @@ namespace Management.Domain
             Gender = gender;
         }
         
-        public int? Id { get; set; }
-        public string Name { get; set; }
-        public DateTime BirthDate { get; set; }
-        public Gender Gender { get; set; }
+        public int? Id { get; }
+        public string Name { get; }
+        public DateTime BirthDate { get; }
+        public Gender Gender { get; }
     }
 }

@@ -12,12 +12,10 @@ namespace Management.API.Controllers
     [Route("[controller]")]
     public class EmployeeController : Controller
     {
-        private readonly ILogger<EmployeeController> _logger;
         private readonly IService<Employee> _service;
-        public EmployeeController(IService<Employee> service, ILogger<EmployeeController> logger)
+        public EmployeeController(IService<Employee> service)
         {
             _service = service;
-            _logger = logger;
         }
 
         /// <summary>
@@ -32,20 +30,10 @@ namespace Management.API.Controllers
             if (request is null)
                 return BadRequest();
 
-            try
-            {
-                _service.Insert(new Employee(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
-              request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null));
+            _service.Insert(new Employee(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
+          request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null));
 
-                return Ok(new TransactionResponse(new ResultTransaction(true)));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
-
+            return Ok(new TransactionResponse(new ResultTransaction(true)));
         }
 
         /// <summary>
@@ -55,16 +43,7 @@ namespace Management.API.Controllers
         [HttpGet]
         public ActionResult<EmployeeListResponse> Get()
         {
-            try
-            {
-                return Ok(new EmployeeListResponse(_service.Get()));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new EmployeeListResponse(_service.Get()));
         }
 
         /// <summary>
@@ -79,16 +58,7 @@ namespace Management.API.Controllers
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            try
-            {
-                return Ok(new EmployeeResponse(_service.Get(id)));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new EmployeeResponse(_service.Get(id)));
         }
 
         /// <summary>
@@ -103,16 +73,7 @@ namespace Management.API.Controllers
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            try
-            {
-                return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
         }
 
         /// <summary>
@@ -128,17 +89,8 @@ namespace Management.API.Controllers
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            try
-            {
-                return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Employee(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
-                    request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null), id))));
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"{ex.Message} , {ex.StackTrace}");
-
-                return StatusCode(500, new ErrorResponse(string.Empty, ex.Message));
-            }
+            return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Employee(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
+                request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null), id))));
         }
     }
 }

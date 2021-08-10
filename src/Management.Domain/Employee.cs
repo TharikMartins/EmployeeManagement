@@ -25,10 +25,10 @@ namespace Management.Domain
             Dependents = dependents;
         }
 
-        public string Cpf { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Address { get; set; }
-        public bool IsActive { get; set; }
-        public List<Dependent> Dependents { get; set; }
+        public string Cpf { get; }
+        public string PhoneNumber { get; }
+        public string Address { get; }
+        public bool IsActive { get; }
+        public List<Dependent> Dependents { get; }
     }
 }
