@@ -9,8 +9,8 @@ namespace Management.Domain
         public Employee(int? id, string name, DateTime birthDate, Gender gender, string cpf, string phoneNumber, string address, bool isActive,
             List<Dependent> dependents) : base(id, name, birthDate, gender)
         {
-            if (string.IsNullOrEmpty(cpf))
-                throw new ArgumentNullException("Cpf cannot be null or empty");
+            if (string.IsNullOrEmpty(cpf) || cpf.Length != 11)
+                throw new ArgumentException("Cpf cannot be null or empty and cannot be more or less that 11 characters");
 
             if (string.IsNullOrEmpty(phoneNumber))
                 throw new ArgumentNullException("PhoneNumber cannot be null or empty");

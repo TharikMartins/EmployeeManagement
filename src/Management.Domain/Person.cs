@@ -9,10 +9,10 @@ namespace Management.Domain
         {
 
             if (string.IsNullOrEmpty(name))
-                throw new Exception("Name cannot be null or empty.");
+                throw new ArgumentException("Name cannot be null or empty.");
 
             if(id != null && id <= 0)
-                throw new Exception("Id cannot be 0 or less than.");
+                throw new ArgumentException("Id cannot be 0 or less than.");
 
             Id = id;
             Name = name;
