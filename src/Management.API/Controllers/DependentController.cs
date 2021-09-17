@@ -1,10 +1,8 @@
 ﻿using Management.API.Request;
 using Management.API.Response;
 using Management.Domain;
-using Management.Domain.Services;
+using Management.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 
 namespace Management.API.Controllers
 {

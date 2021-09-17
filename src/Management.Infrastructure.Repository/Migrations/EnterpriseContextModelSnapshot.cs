@@ -85,6 +85,33 @@ namespace Management.Infrastructure.Repository.Migrations
                     b.ToTable("Employee","dbo");
                 });
 
+            modelBuilder.Entity("Management.Infrastructure.Repository.DTO.LogDTO", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("EndpointName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MethodType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Log","dbo");
+                });
+
             modelBuilder.Entity("Management.Infrastructure.Repository.DTO.DependentDTO", b =>
                 {
                     b.HasOne("Management.Infrastructure.Repository.DTO.EmployeeDTO", "Employee")

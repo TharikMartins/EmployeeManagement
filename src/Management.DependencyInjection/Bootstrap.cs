@@ -10,13 +10,14 @@ namespace Management.DependencyInjection
 {
     public static class Bootstrap
     {
-        public static IServiceCollection AddDependency(this IServiceCollection service) =>
+        public static IServiceCollection AddService(this IServiceCollection service) =>
             service.AddTransient<IService<Employee>, EmployeeService>()
            .AddTransient<IService<Dependent>, DependentService>();
 
         public static IServiceCollection AddRepository(this IServiceCollection service) =>
           service.AddTransient<IRepository<Employee>, EmployeeRepository>()
-           .AddTransient<IRepository<Dependent>, DependentRepository>();
+           .AddTransient<IRepository<Dependent>, DependentRepository>()
+           .AddTransient<ILogRepository, LogRepository>();
 
         public static IServiceCollection AddParse(this IServiceCollection service) =>
            service.AddTransient<IParse<Employee, EmployeeDTO>, EmployeeParse>()

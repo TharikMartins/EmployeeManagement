@@ -32,7 +32,7 @@ namespace Management.API
             services.AddLogging();
             services.AddSwaggerGen();
             services.AddDbContext<EnterpriseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDependency();
+            services.AddService();
             services.AddRepository();
             services.AddParse();
         }

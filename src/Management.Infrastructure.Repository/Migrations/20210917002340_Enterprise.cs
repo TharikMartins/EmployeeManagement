@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Management.Infrastructure.Repository.Migrations
 {
-    public partial class EnterpriseManagement : Migration
+    public partial class Enterprise : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -28,6 +28,23 @@ namespace Management.Infrastructure.Repository.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employee", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Log",
+                schema: "dbo",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MethodType = table.Column<string>(nullable: false),
+                    EndpointName = table.Column<string>(nullable: false),
+                    Message = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Log", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -65,6 +82,10 @@ namespace Management.Infrastructure.Repository.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Dependent",
+                schema: "dbo");
+
+            migrationBuilder.DropTable(
+                name: "Log",
                 schema: "dbo");
 
             migrationBuilder.DropTable(

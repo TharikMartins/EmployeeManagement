@@ -12,6 +12,7 @@ namespace Management.Infrastructure.Repository.Context
         public DbSet<EmployeeDTO> Employee { get; set; }
         public DbSet<DependentDTO> Dependent { get; set; }
 
+        public DbSet<LogDTO> Log { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<EmployeeDTO>()

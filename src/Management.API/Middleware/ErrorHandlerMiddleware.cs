@@ -1,6 +1,7 @@
 ﻿using Management.API.Response;
+using Management.Domain.Interfaces;
+using Management.Domain;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using System.Net;
@@ -11,15 +12,13 @@ namespace Management.API.Middleware
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ErrorHandlerMiddleware> _logger;
 
-        public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger)
+        public ErrorHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context, ILogRepository logger)
         {
             try
             {
@@ -27,18 +26,20 @@ namespace Management.API.Middleware
             }
             catch (Exception ex)
             {
-                await this.HandlerErrorAsync(context, ex);
+                await this.HandlerErrorAsync(context, ex, logger);
             }
         }
 
-        private async Task HandlerErrorAsync(HttpContext context, Exception ex)
+        private async Task HandlerErrorAsync(HttpContext context, Exception ex, ILogRepository logger)
         {
-            _logger.LogError($"{ex.Message} , {ex.StackTrace}");
+            var contextRq = context.Request;
+            Task loggerResut = logger.LogAsync(new Log(contextRq.Method, contextRq.Path.Value, $"{ex.Message} , {ex.StackTrace}"));
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
             await context.Response.WriteAsync(JsonConvert.SerializeObject(new ErrorResponse(string.Empty, $"{ex.Message} , {ex.StackTrace}")));
+            await loggerResut;
         }
     }
 }
