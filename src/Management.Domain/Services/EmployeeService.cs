@@ -1,6 +1,7 @@
 ﻿using Management.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Management.Domain.Services
 {
@@ -12,42 +13,42 @@ namespace Management.Domain.Services
             _repository = repository;
         }
 
-        public void Insert(Employee employee)
+        public async Task Insert(Employee employee)
         {
             if (employee is null)
                 throw new ArgumentNullException("Employee cannot be null");
 
-            _repository.Insert(employee);
+           await _repository.Insert(employee);
         }
 
-        public List<Employee> Get()
+        public async Task<List<Employee>> Get()
         {
-            return _repository.Get();
+            return await _repository.Get();
         }
 
-        public Employee Get(int id)
+        public async Task<Employee> Get(int id)
         {
             if (id <= 0)
                 throw new ArgumentException("Id cannot be 0 or less than.");
 
-            return _repository.Get(id);
+            return await _repository.Get(id);
         }
 
-        public bool Update(Employee employee, int id)
+        public async Task<bool> Update(Employee employee, int id)
         {
             if (employee is null) throw new ArgumentNullException("Employee cannot be null");
             if (id <= 0) throw new ArgumentException("Id cannot be 0 or less than.");
 
-            return _repository.Update(employee, id);
+            return await _repository.Update(employee, id);
 
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             if (id <= 0)
                 throw new ArgumentException("Id cannot be 0 or less than.");
 
-           return _repository.Delete(id);
+           return await _repository.Delete(id);
         }
     }
 }

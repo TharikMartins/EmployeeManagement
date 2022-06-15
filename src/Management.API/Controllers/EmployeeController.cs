@@ -3,6 +3,7 @@ using Management.API.Response;
 using Management.Domain;
 using Management.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Management.API.Controllers
 {
@@ -22,13 +23,13 @@ namespace Management.API.Controllers
         /// <param name="request">Employee information</param>
         /// <returns>TransactionResponse</returns>
         [HttpPost]
-        public ActionResult<TransactionResponse> Post(EmployeeDataRequest request)
+        public async Task<ActionResult<TransactionResponse>> Post(EmployeeDataRequest request)
         {
 
             if (request is null)
                 return BadRequest();
 
-            _service.Insert(new Employee(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
+            await _service.Insert(new Employee(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
           request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null));
 
             return Ok(new TransactionResponse(new ResultTransaction(true)));
@@ -39,9 +40,9 @@ namespace Management.API.Controllers
         /// </summary>
         /// <returns>EmployeeListResponse</returns>
         [HttpGet]
-        public ActionResult<EmployeeListResponse> Get()
+        public async Task<ActionResult<EmployeeListResponse>> Get()
         {
-            return Ok(new EmployeeListResponse(_service.Get()));
+            return Ok(new EmployeeListResponse(await _service.Get()));
         }
 
         /// <summary>
@@ -51,12 +52,12 @@ namespace Management.API.Controllers
         /// <returns>EmployeeResponse</returns>
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<EmployeeResponse> Get(int id)
+        public async Task<ActionResult<EmployeeResponse>> Get(int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            return Ok(new EmployeeResponse(_service.Get(id)));
+            return Ok(new EmployeeResponse(await _service.Get(id)));
         }
 
         /// <summary>
@@ -66,12 +67,12 @@ namespace Management.API.Controllers
         /// <returns>TransactionResponse</returns>
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult<TransactionResponse> Delete(int id)
+        public async Task<ActionResult<TransactionResponse>> Delete(int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
+            return Ok(new TransactionResponse(new ResultTransaction(await _service.Delete(id))));
         }
 
         /// <summary>
@@ -82,12 +83,12 @@ namespace Management.API.Controllers
         /// <returns>TransactionResponse</returns>
         [HttpPut]
         [Route("{id}")]
-        public ActionResult<TransactionResponse> Put(EmployeeDataRequest request, int id)
+        public async Task<ActionResult<TransactionResponse>> Put(EmployeeDataRequest request, int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Employee(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
+            return Ok(new TransactionResponse(new ResultTransaction(await _service.Update(new Employee(id, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender,
                 request.Cpf, request.PhoneNumber, request.Address, request.IsActive, null), id))));
         }
     }

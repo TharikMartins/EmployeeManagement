@@ -7,7 +7,7 @@ namespace Management.Domain
     public class Employee : Person
     {
         public Employee(int? id, string name, DateTime birthDate, Gender gender, string cpf, string phoneNumber, string address, bool isActive,
-            List<Dependent> dependents) : base(id, name, birthDate, gender)
+            IEnumerable<Dependent> dependents) : base(id, name, birthDate, gender)
         {
             if (string.IsNullOrEmpty(cpf) || cpf.Length != 11)
                 throw new ArgumentException("Cpf cannot be null or empty and cannot be more or less that 11 characters");
@@ -29,6 +29,6 @@ namespace Management.Domain
         public string PhoneNumber { get; }
         public string Address { get; }
         public bool IsActive { get; }
-        public List<Dependent> Dependents { get; }
+        public IEnumerable<Dependent> Dependents { get; }
     }
 }

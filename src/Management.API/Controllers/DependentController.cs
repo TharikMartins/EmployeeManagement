@@ -3,6 +3,7 @@ using Management.API.Response;
 using Management.Domain;
 using Management.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Management.API.Controllers
 {
@@ -22,13 +23,13 @@ namespace Management.API.Controllers
         /// <param name="request">Dependent user data</param>
         /// <returns>TransactionResponse</returns>
         [HttpPost]
-        public ActionResult<TransactionResponse> Post(DependentDataRequest request)
+        public async Task<ActionResult<TransactionResponse>> Post(DependentDataRequest request)
         {
             if (request is null)
                 return BadRequest("Request cannot be null");
 
 
-            _service.Insert(new Dependent(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
+            await _service.Insert(new Dependent(null, request.Name, request.BirthDate, (Domain.Enum.Gender)request.Gender, request.EmployeeId));
 
             return Ok(new TransactionResponse(new ResultTransaction(true)));
         }
@@ -38,10 +39,7 @@ namespace Management.API.Controllers
         /// </summary>
         /// <returns>DependentListResponse</returns>
         [HttpGet]
-        public ActionResult<DependentListResponse> Get()
-        {
-            return Ok(new DependentListResponse(_service.Get()));
-        }
+        public async Task<ActionResult<DependentListResponse>> Get() => Ok(new DependentListResponse(await _service.Get()));
 
         /// <summary>
         /// Endpoint to get Dependent by id.
@@ -50,12 +48,12 @@ namespace Management.API.Controllers
         /// <returns>DependentResponse</returns>
         [HttpGet]
         [Route("{id}")]
-        public ActionResult<DependentResponse> Get(int id)
+        public async Task<ActionResult<DependentResponse>> Get(int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            return Ok(new DependentResponse(_service.Get(id)));
+            return Ok(new DependentResponse(await _service.Get(id)));
         }
 
         /// <summary>
@@ -65,12 +63,12 @@ namespace Management.API.Controllers
         /// <returns>TransactionResponse</returns>
         [HttpDelete]
         [Route("{id}")]
-        public ActionResult<TransactionResponse> Delete(int id)
+        public async Task<ActionResult<TransactionResponse>> Delete(int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            return Ok(new TransactionResponse(new ResultTransaction(_service.Delete(id))));
+            return Ok(new TransactionResponse(new ResultTransaction(await _service.Delete(id))));
         }
 
         /// <summary>
@@ -81,12 +79,12 @@ namespace Management.API.Controllers
         /// <returns>TransactionResponse</returns>
         [HttpPut]
         [Route("{id}")]
-        public ActionResult<TransactionResponse> Put(DependentDataRequest request, int id)
+        public async Task<ActionResult<TransactionResponse>> Put(DependentDataRequest request, int id)
         {
             if (id <= 0)
                 return BadRequest("Id cannot be 0 or less than.");
 
-            return Ok(new TransactionResponse(new ResultTransaction(_service.Update(new Dependent(id, request.Name, request.BirthDate, 
+            return Ok(new TransactionResponse(new ResultTransaction(await _service.Update(new Dependent(id, request.Name, request.BirthDate,
                 (Domain.Enum.Gender)request.Gender, request.EmployeeId), id))));
         }
     }

@@ -5,6 +5,7 @@ using Management.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Management.Infrastructure.Repository
 {
@@ -18,17 +19,19 @@ namespace Management.Infrastructure.Repository
             _context = context;
             _parse = parse;
         }
-        public void Insert(Dependent dependent)
-        {
-            _context.Dependent.Add(_parse.Parse(dependent));
 
-            _context.SaveChanges();
-        }
-        public List<Dependent> Get()
+        public async Task Insert(Dependent dependent)
         {
-            List<DependentDTO> dto = _context.Dependent
+            await _context.Dependent.AddAsync(_parse.Parse(dependent));
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<Dependent>> Get()
+        {
+            List<DependentDTO> dto = await _context.Dependent
                 .Include(d => d.Employee)
-                .ToList();
+                .ToListAsync();
 
             var dependents = new List<Dependent>(dto.Count);
             dto.ForEach(d =>
@@ -36,49 +39,50 @@ namespace Management.Infrastructure.Repository
                 dependents.Add(_parse.Parse(d));
             });
 
-            return dependents;
+            return await Task.FromResult(dependents);
         }
 
-        public Dependent Get(int Id)
+        public async Task<Dependent> Get(int Id)
         {
-            DependentDTO dto = _context.Dependent
+            DependentDTO dto = await _context.Dependent
                    .Where(d => d.Id == Id)
                    .Include(e => e.Employee)
-                   .FirstOrDefault();
+                   .FirstOrDefaultAsync();
 
             if (dto is null)
                 return null;
 
-            return _parse.Parse(dto);
+
+            return await Task.FromResult(_parse.Parse(dto));
         }
 
-        public bool Delete(int Id)
+        public async Task<bool> Delete(int Id)
         {
-            DependentDTO dto = _context.Dependent
+            DependentDTO dto = await _context.Dependent
                    .Where(d => d.Id == Id)
                    .Include(e => e.Employee)
-                   .FirstOrDefault();
+                   .FirstOrDefaultAsync();
 
             if (dto is null)
-                return false;
+                return await Task.FromResult(false); ;
 
             _context.Dependent.Remove(dto);
-            
-            _context.SaveChanges();
 
-            return true;
+           await _context.SaveChangesAsync();
+
+            return await Task.FromResult(true); ;
 
         }
 
-        public bool Update(Dependent dependent, int id)
+        public async Task<bool> Update(Dependent dependent, int id)
         {
-            DependentDTO dto = _context.Dependent
+            DependentDTO dto = await _context.Dependent
                 .Where(e => e.Id == id)
                 .Include(e => e.Employee)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (dto is null)
-                return false;
+                return await Task.FromResult(false);
 
             dto.Name = dependent.Name;
             dto.BirthDate = dependent.BirthDate;
@@ -89,7 +93,7 @@ namespace Management.Infrastructure.Repository
 
             _context.SaveChanges();
 
-            return true;
+            return await Task.FromResult(true); ;
         }
     }
 }

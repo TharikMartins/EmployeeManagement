@@ -19,24 +19,16 @@ namespace Management.Infrastructure.Repository.Parse
             Gender = employee.Gender.ToString(),
             IsActive = employee.IsActive,
             PhoneNumber = employee.PhoneNumber,
-            Dependents = employee.Dependents?.Select(e => new DependentDTO {Gender = e.Gender.ToString(), Name = e.Name, BirthDate = e.BirthDate }).ToList()
+            Dependents = employee.Dependents?.Select(e => new DependentDTO { Gender = e.Gender.ToString(), Name = e.Name, BirthDate = e.BirthDate }).ToList()
         };
 
         public Employee Parse(EmployeeDTO dto) => new Employee(dto.Id, dto.Name, dto.BirthDate, (EnumDomain.Gender)Enum.Parse(typeof(EnumDomain.Gender), dto.Gender),
             dto.Cpf, dto.PhoneNumber, dto.Address, dto.IsActive, this.parseDependents(dto.Dependents));
 
-        private Func<ICollection<DependentDTO>, List<Dependent>> parseDependents = (dependentsDto) =>
+        private IEnumerable<Dependent> parseDependents(ICollection<DependentDTO> dependentsDto)
         {
-            var dependents = new List<Dependent>();
-
-            foreach (var dto in dependentsDto)
-            {
-                dependents.Add(
-                    new Dependent(dto.Id, dto.Name, dto.BirthDate, 
-                    (EnumDomain.Gender)Enum.Parse(typeof(EnumDomain.Gender),dto.Gender), dto.EmployeeId));
-            }
-
-            return dependents;
-        };
+            return dependentsDto.Select(dto => new Dependent(dto.Id, dto.Name, dto.BirthDate,
+                     (EnumDomain.Gender)Enum.Parse(typeof(EnumDomain.Gender), dto.Gender), dto.EmployeeId));
+        }
     }
 }

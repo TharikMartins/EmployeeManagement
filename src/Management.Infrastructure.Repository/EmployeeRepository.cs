@@ -5,6 +5,7 @@ using Management.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Management.Infrastructure.Repository
 {
@@ -20,18 +21,18 @@ namespace Management.Infrastructure.Repository
             _parse = parse;
         }
 
-        public void Insert(Employee employee)
+        public async Task Insert(Employee employee)
         {
-            _context.Employee.Add(_parse.Parse(employee));
+            await _context.Employee.AddAsync(_parse.Parse(employee));
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public List<Employee> Get()
+        public async Task<List<Employee>> Get()
         {
-            List<EmployeeDTO> dto = _context.Employee
+            List<EmployeeDTO> dto = await _context.Employee
                 .Include(e => e.Dependents)
-                .ToList();
+                .ToListAsync();
 
             var employees = new List<Employee>(dto.Count);
             dto.ForEach(d =>
@@ -42,19 +43,19 @@ namespace Management.Infrastructure.Repository
             return employees;
         }
 
-        public Employee Get(int Id)
+        public async Task<Employee> Get(int Id)
         {
-            EmployeeDTO dto = _context.Employee
+            EmployeeDTO dto = await _context.Employee
                 .Where(e => e.Id == Id)
                 .Include(e => e.Dependents)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (dto is null)
                 return null;
 
             return _parse.Parse(dto);
         }
-        public bool Update(Employee employee, int Id)
+        public async Task<bool> Update(Employee employee, int Id)
         {
             EmployeeDTO dto = _context.Employee
                 .Where(e => e.Id == Id)
@@ -62,7 +63,7 @@ namespace Management.Infrastructure.Repository
                 .FirstOrDefault();
 
             if (dto is null)
-                return false;
+                return await Task.FromResult(false);
 
             dto.Name = employee.Name;
             dto.Cpf = employee.Cpf;
@@ -73,26 +74,26 @@ namespace Management.Infrastructure.Repository
             dto.IsActive = employee.IsActive;
 
             _context.Employee.Update(dto);
-            
-            _context.SaveChanges();
-            
-            return true;
+
+           await _context.SaveChangesAsync();
+
+            return await Task.FromResult(true);
         }
-        public bool Delete(int Id)
+        public async Task<bool> Delete(int Id)
         {
-            EmployeeDTO dto = _context.Employee
+            EmployeeDTO dto = await _context.Employee
                 .Where(e => e.Id == Id)
                 .Include(e => e.Dependents)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             if (dto is null)
-                return false;
+                return await Task.FromResult(false); 
 
             _context.Employee.Remove(dto);
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return true;
+            return await Task.FromResult(true);
         }
     }
 }
